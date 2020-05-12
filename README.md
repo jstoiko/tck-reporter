@@ -1,9 +1,9 @@
-# tck-reporter
-HTML reports generator for Test Compatibility Kits (e.g. [raml-org/raml-tck](https://github.com/raml-org/raml-tck), [asyncapi/tck](https://github.com/asyncapi/tck)).
+# TCK Reporter
+TCK Reporter generates HTML reports for Test Compatibility Kits. This library was built and later generalized for use in [raml-org/raml-tck](https://github.com/raml-org/raml-tck) and [asyncapi/tck](https://github.com/asyncapi/tck) but can be used in any project.
 
 ## Installation
 ```sh
-$ npm install -g postatum/tck-reporter
+$ npm i -g  tck-reporter
 ```
 
 ## Usage
