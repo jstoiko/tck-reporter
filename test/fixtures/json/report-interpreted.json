@@ -1,0 +1,54 @@
+{
+  "parser": {
+    "name": "webapi-parser",
+    "language": "js",
+    "url": "https://github.com/raml-org/webapi-parser",
+    "version": "^0.5.0"
+  },
+  "results": [
+    {
+      "file": "tests/raml-1.0/Something/version/invalid-version-structure.raml",
+      "success": true,
+      "invalid": true,
+      "fileUrl": "https://github.com/qwe/123/tests/raml-1.0/Something/version/invalid-version-structure.raml",
+      "feature": "tests/raml-1.0/Something"
+    },
+    {
+      "file": "tests/raml-1.0/Root/title-04/invalid-something.raml",
+      "success": false,
+      "invalid": true,
+      "error": "Parsing expected to fail but succeeded",
+      "fileUrl": "https://github.com/qwe/123/tests/raml-1.0/Root/title-04/invalid-something.raml",
+      "feature": "tests/raml-1.0/Root"
+    },
+    {
+      "file": "tests/raml-1.0/Root/version/valid.raml",
+      "success": true,
+      "invalid": false,
+      "fileUrl": "https://github.com/qwe/123/tests/raml-1.0/Root/version/valid.raml",
+      "feature": "tests/raml-1.0/Root"
+    },
+    {
+      "file": "tests/raml-1.0/Title/something/valid.raml",
+      "success": true,
+      "invalid": false,
+      "fileUrl": "https://github.com/qwe/123/tests/raml-1.0/Title/something/valid.raml",
+      "feature": "tests/raml-1.0/Title"
+    },
+    {
+      "file": "tests/raml-1.0/Root/another-one/valid.raml",
+      "success": true,
+      "invalid": false,
+      "fileUrl": "https://github.com/qwe/123/tests/raml-1.0/Root/another-one/valid.raml",
+      "feature": "tests/raml-1.0/Root"
+    },
+    {
+      "file": "tests/raml-1.0/Methods/title-04/valid-included.raml",
+      "success": false,
+      "error": "Error: Included file not found",
+      "invalid": false,
+      "fileUrl": "https://github.com/qwe/123/tests/raml-1.0/Methods/title-04/valid-included.raml",
+      "feature": "tests/raml-1.0/Methods"
+    }
+  ]
+}

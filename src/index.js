@@ -102,7 +102,7 @@ function calculateSuccessPerc (data) {
 }
 
 /*
-  Composes single parser features report.
+  Composes single parser features report from an interpreted report.
   It includes features names and number of passed/all valid/invalid
   files for each parser.
 */
@@ -123,6 +123,7 @@ function composeFeaturesStats (report) {
   for (var featureName in grouped) {
     if (Object.prototype.hasOwnProperty.call(grouped, featureName)) {
       const stats = composeReportStats({
+        parser: report.parser,
         results: grouped[featureName]
       })
       stats.feature = featureName
