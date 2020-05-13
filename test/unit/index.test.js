@@ -2,11 +2,11 @@
 
 const expect = require('chai').expect
 const rewire = require('rewire')
-const fs = require('fs')
+const fs = require('fs-extra')
 const path = require('path')
 const index = rewire('../../src/index')
 
-const FIXTURES_DIR = path.join(__dirname, '..', 'fixtures', 'json')
+const FIXTURES_DIR = path.join(__dirname, '..', 'fixtures')
 
 const TEST_PARSER_INFO = {
   name: 'webapi-parser',
@@ -30,7 +30,7 @@ describe('index.interpretReport()', function () {
   it('should interpret failed test status, compose repo url and feature name', function () {
     const report = JSON.parse(
       fs.readFileSync(
-        path.join(FIXTURES_DIR, 'report.json')
+        path.join(FIXTURES_DIR, 'json', 'report.json')
       ).toString()
     )
 

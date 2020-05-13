@@ -1,6 +1,8 @@
 const path = require('path')
-const fs = require('fs')
+const fs = require('fs-extra')
 const Mustache = require('mustache')
+
+const TMPL_DIR = path.join(__dirname, '..', 'templates')
 
 /* Runs all the logic */
 function generateReports (jsonReportsDir, outputHtmlDir, opts) {
@@ -32,6 +34,7 @@ function generateReports (jsonReportsDir, outputHtmlDir, opts) {
       outputHtmlDir)
   })
   renderTemplate({ stats: stats }, 'index', 'index', outputHtmlDir)
+  copyStaticFiles(outputHtmlDir)
 }
 
 /*
@@ -135,8 +138,7 @@ function composeFeaturesStats (report) {
 
 /* Renders single Mustache template with data and writes it to html file */
 function renderTemplate (data, tmplName, htmlName, outputHtmlDir) {
-  const inPath = path.join(
-    __dirname, '..', 'templates', `${tmplName}.mustache`)
+  const inPath = path.join(TMPL_DIR, `${tmplName}.mustache`)
   const tmplStr = fs.readFileSync(inPath, 'utf-8')
   const htmlStr = Mustache.render(tmplStr, data)
   const outPath = path.join(outputHtmlDir, `${htmlName}.html`)
@@ -147,6 +149,17 @@ function renderTemplate (data, tmplName, htmlName, outputHtmlDir) {
 /* Checks whether a file is expected to fail */
 function shouldFail (fpath) {
   return fpath.toLowerCase().includes('invalid')
+}
+
+/** Copies static files needed for generated HTML page to look nice.
+ *
+ * @param outDir Generated HTML output directory.
+ */
+function copyStaticFiles (outDir) {
+  const tmplStaticDir = path.join(TMPL_DIR, 'static')
+  const outStaticDir = path.join(outDir, 'static')
+  fs.ensureDirSync(outStaticDir)
+  fs.copySync(tmplStaticDir, outStaticDir)
 }
 
 module.exports = {

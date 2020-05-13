@@ -22,6 +22,9 @@ Options:
   -h, --help             display help for command
 ```
 
+## Custom CSS
+Pages look can be customize by writing custom CSS at `<outputHtmlDir>/static/user-styles.css`.
+
 ## Input JSON structure
 The tool expects input JSON reports to have the following structure:
 
