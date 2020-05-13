@@ -1,18 +1,31 @@
 {
   "name": "tck-reporter",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "HTML reports generator for Test Compatibility Kits.",
   "main": "src/index.js",
-  "scripts": {},
+  "scripts": {
+    "lint": "standard",
+    "test-unit": "nyc mocha -R spec --bail test/unit/*.test.js",
+    "test-integration": "nyc mocha -R spec --bail test/integration/*.test.js",
+    "test-all": "nyc mocha -R spec --bail test/**/*.test.js",
+    "test": "npm run lint && npm run test-all"
+  },
   "keywords": [],
   "author": "MuleSoft",
   "license": "ISC",
   "dependencies": {
     "commander": "^5.1.0",
+    "fs-extra": "^9.0.0",
     "mustache": "^3.0.1"
   },
   "bin": {
     "tck-reporter": "bin/tck-reporter.js"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "mocha": "^7.1.1",
+    "chai": "^4.1.2",
+    "nyc": "^15.0.0",
+    "rewire": "^5.0.0",
+    "standard": "^14.3.3"
+  }
 }

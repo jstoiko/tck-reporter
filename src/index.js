@@ -1,6 +1,8 @@
 const path = require('path')
-const fs = require('fs')
+const fs = require('fs-extra')
 const Mustache = require('mustache')
+
+const TMPL_DIR = path.join(__dirname, '..', 'templates')
 
 /* Runs all the logic */
 function generateReports (jsonReportsDir, outputHtmlDir, opts) {
@@ -10,14 +12,14 @@ function generateReports (jsonReportsDir, outputHtmlDir, opts) {
   if (!fs.existsSync(outputHtmlDir)) {
     fs.mkdirSync(outputHtmlDir)
   }
-  let stats = []
+  const stats = []
   fs.readdirSync(jsonReportsDir).forEach(fpath => {
     if (!fpath.endsWith('.json')) {
       return
     }
-    let fullPath = path.join(jsonReportsDir, fpath)
+    const fullPath = path.join(jsonReportsDir, fpath)
     console.log(`Processing report: ${fullPath}`)
-    let report = JSON.parse(fs.readFileSync(fullPath))
+    const report = JSON.parse(fs.readFileSync(fullPath))
     interpretReport(report, opts.repoBranchUrl)
     stats.push(composeReportStats(report))
     renderTemplate(
@@ -25,13 +27,14 @@ function generateReports (jsonReportsDir, outputHtmlDir, opts) {
       `${report.parser.name}_${report.parser.language}_detailed_report`,
       outputHtmlDir)
 
-    let featuresStats = composeFeaturesStats(report)
+    const featuresStats = composeFeaturesStats(report)
     renderTemplate(
       featuresStats, 'features_stats',
       `${report.parser.name}_${report.parser.language}_features_stats`,
       outputHtmlDir)
   })
-  renderTemplate({stats: stats}, 'index', 'index', outputHtmlDir)
+  renderTemplate({ stats: stats }, 'index', 'index', outputHtmlDir)
+  copyStaticFiles(outputHtmlDir)
 }
 
 /*
@@ -68,11 +71,11 @@ function interpretReport (report, repoBranchUrl) {
     * % of passed files tests;
 */
 function composeReportStats (report) {
-  let stats = {
+  const stats = {
     parser: report.parser,
-    valid: {success: 0, total: 0, successPerc: 0},
-    invalid: {success: 0, total: 0, successPerc: 0},
-    all: {success: 0, total: report.results.length, successPerc: 0}
+    valid: { success: 0, total: 0, successPerc: 0 },
+    invalid: { success: 0, total: 0, successPerc: 0 },
+    all: { success: 0, total: report.results.length, successPerc: 0 }
   }
   const invalid = report.results.filter(r => { return r.invalid })
   const invalidSuccess = invalid.filter(r => { return r.success })
@@ -102,17 +105,17 @@ function calculateSuccessPerc (data) {
 }
 
 /*
-  Composes single parser features report.
+  Composes single parser features report from an interpreted report.
   It includes features names and number of passed/all valid/invalid
   files for each parser.
 */
 function composeFeaturesStats (report) {
-  let frep = {
+  const frep = {
     parser: report.parser,
     stats: []
   }
   // Group by feature name
-  let grouped = {}
+  const grouped = {}
   report.results.forEach(result => {
     if (grouped[result.feature] === undefined) {
       grouped[result.feature] = []
@@ -121,8 +124,9 @@ function composeFeaturesStats (report) {
   })
   // Compose stats for each feature
   for (var featureName in grouped) {
-    if (grouped.hasOwnProperty(featureName)) {
-      let stats = composeReportStats({
+    if (Object.prototype.hasOwnProperty.call(grouped, featureName)) {
+      const stats = composeReportStats({
+        parser: report.parser,
         results: grouped[featureName]
       })
       stats.feature = featureName
@@ -134,8 +138,7 @@ function composeFeaturesStats (report) {
 
 /* Renders single Mustache template with data and writes it to html file */
 function renderTemplate (data, tmplName, htmlName, outputHtmlDir) {
-  const inPath = path.join(
-    __dirname, '..', 'templates', `${tmplName}.mustache`)
+  const inPath = path.join(TMPL_DIR, `${tmplName}.mustache`)
   const tmplStr = fs.readFileSync(inPath, 'utf-8')
   const htmlStr = Mustache.render(tmplStr, data)
   const outPath = path.join(outputHtmlDir, `${htmlName}.html`)
@@ -146,6 +149,17 @@ function renderTemplate (data, tmplName, htmlName, outputHtmlDir) {
 /* Checks whether a file is expected to fail */
 function shouldFail (fpath) {
   return fpath.toLowerCase().includes('invalid')
+}
+
+/** Copies static files needed for generated HTML page to look nice.
+ *
+ * @param outDir Generated HTML output directory.
+ */
+function copyStaticFiles (outDir) {
+  const tmplStaticDir = path.join(TMPL_DIR, 'static')
+  const outStaticDir = path.join(outDir, 'static')
+  fs.ensureDirSync(outStaticDir)
+  fs.copySync(tmplStaticDir, outStaticDir)
 }
 
 module.exports = {
