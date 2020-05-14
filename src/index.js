@@ -77,7 +77,7 @@ function composeReportStats (report) {
     valid: { success: 0, total: 0, successPerc: 0 },
     invalid: { success: 0, total: 0, successPerc: 0 },
     all: { success: 0, total: 0, successPerc: 0 },
-    optional: { success: 0, total: 0, successPerc: 0}
+    optional: { success: 0, total: 0, successPerc: 0 }
   }
   const nonOptResults = report.results.filter(r => !r.optional)
 
