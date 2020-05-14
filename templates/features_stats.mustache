@@ -15,9 +15,18 @@
         <thead>
           <tr>
             <th>Feature</th>
-            <th>Valid Files <span class="stat-nums">(passed/all)</span></th>
-            <th>Invalid Files <span class="stat-nums">(passed/all)</span></th>
-            <th>Total <span class="stat-nums">(passed/all)</span></th>
+            <th title="Valid tests success percentage and numbers.">
+              Valid Files <span class="stat-nums">(passed/all)</span>
+            </th>
+            <th title="Invalid tests success percentage and numbers.">
+              Invalid Files <span class="stat-nums">(passed/all)</span>
+            </th>
+            <th title="Total success percentage and numbers.">
+              Total <span class="stat-nums">(passed/all)</span>
+            </th>
+            <th title="Optional tests success percentage and numbers.">
+              Optional Files <span class="stat-nums">(passed/all)</span>
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -35,6 +44,10 @@
               <td>
                 {{all.successPerc}}%
                 <span class="stat-nums">({{all.success}}/{{all.total}})</span>
+              </td>
+              <td>
+                {{optional.successPerc}}%
+                <span class="stat-nums">({{optional.success}}/{{optional.total}})</span>
               </td>
             </tr>
           {{/stats}}
