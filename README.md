@@ -26,7 +26,9 @@ Options:
 Pages look can be customize by writing custom CSS at `<outputHtmlDir>/static/user-styles.css`.
 
 ## Input JSON structure
-The tool expects input JSON reports to have the following structure:
+The tool expects input JSON reports to be valid against the [report-schema.json](./src/report-schema.json) JSON Schema.
+
+E.g.:
 
 ```json
 {
