@@ -1,6 +1,10 @@
 const path = require('path')
 const fs = require('fs-extra')
 const Mustache = require('mustache')
+const Ajv = require('ajv')
+
+const ajv = new Ajv({ allErrors: true, schemaId: 'auto' })
+const validate = ajv.compile(require('./report-schema.json'))
 
 const TMPL_DIR = path.join(__dirname, '..', 'templates')
 
@@ -20,6 +24,16 @@ function generateReports (jsonReportsDir, outputHtmlDir, opts) {
     const fullPath = path.join(jsonReportsDir, fpath)
     console.log(`Processing report: ${fullPath}`)
     const report = JSON.parse(fs.readFileSync(fullPath))
+
+    // Validate report agains tck report JSON Schema
+    const valid = validate(report)
+    if (!valid) {
+      console.error(
+        `Error: Invalid report "${fullPath}": ${validate.errors[0].message} ` +
+        `(${validate.errors[0].dataPath})`)
+      return
+    }
+
     interpretReport(report, opts.repoBranchUrl)
     stats.push(composeReportStats(report))
     renderTemplate(

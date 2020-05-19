@@ -25,7 +25,7 @@ Options:
 ## Custom CSS
 Pages look can be customize by writing custom CSS at `<outputHtmlDir>/static/user-styles.css`.
 
-## Input JSON structure
+## Input reports structure
 The tool expects input JSON reports to be valid against the [report-schema.json](./src/report-schema.json) JSON Schema.
 
 E.g.:
@@ -52,4 +52,9 @@ E.g.:
     ...
   ]
 }
+```
+
+Invalid reports will produce an error log and will be skipped. E.g.:
+```
+Error: Invalid report "/there/my-parser.json": should have required property 'language' (.parser)
 ```

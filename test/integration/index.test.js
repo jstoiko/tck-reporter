@@ -25,6 +25,12 @@ describe('index.generateReports()', function () {
       'webapi-parser_js_features_stats.html'
     ])
   })
+  it('should not generate html pages for invalid reports', function () {
+    const files = fs.readdirSync(htmlDir).filter(x => x.endsWith('.html'))
+    files.sort()
+    expect(files).to.not.include('banana-parser_js_detailed_report.html')
+    expect(files).to.not.include('banana-parser_js_features_stats.html')
+  })
   it('should copy static files', function () {
     const staticDir = path.join(htmlDir, 'static')
     const files = fs.readdirSync(staticDir)
