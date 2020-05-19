@@ -44,11 +44,12 @@ describe('index.generateReports()', function () {
       'Overview',
       'Valid Files',
       'Invalid Files',
+      'Optional Files',
       'Total',
       'webapi-parser (js, ^0.5.0)',
       'https://github.com/raml-org/webapi-parser',
       '75%', '67%', '50%',
-      '(3/4)', '(1/2)', '(4/6)',
+      '(3/4)', '(1/2)', '(4/6)', '(2/3)',
       'webapi-parser_js_detailed_report.html',
       'webapi-parser_js_features_stats.html'
     ]
@@ -64,11 +65,13 @@ describe('index.generateReports()', function () {
       'static/custom.css',
       'static/user-styles.css',
       'File', 'Success', 'Yes', 'No',
+      '(Optional)',
       'invalid-version-structure.raml',
       'invalid-something.raml',
       'valid.raml',
       'Parsing expected to fail but succeeded',
-      'Error: Included file not found'
+      'Error: Included file not found',
+      'Error: Unexpected key bye'
     ]
     expected.forEach(s => expect(html).to.have.string(s))
   })
@@ -84,6 +87,7 @@ describe('index.generateReports()', function () {
       'Feature',
       'Invalid Files',
       'Valid Files',
+      'Optional Files',
       'Total'
     ]
     expected.forEach(s => expect(html).to.have.string(s))

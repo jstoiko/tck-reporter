@@ -10,6 +10,7 @@
       "file": "tests/raml-1.0/Something/version/invalid-version-structure.raml",
       "success": true,
       "invalid": true,
+      "optional": false,
       "fileUrl": "https://github.com/qwe/123/tests/raml-1.0/Something/version/invalid-version-structure.raml",
       "feature": "tests/raml-1.0/Something"
     },
@@ -17,6 +18,7 @@
       "file": "tests/raml-1.0/Root/title-04/invalid-something.raml",
       "success": false,
       "invalid": true,
+      "optional": false,
       "error": "Parsing expected to fail but succeeded",
       "fileUrl": "https://github.com/qwe/123/tests/raml-1.0/Root/title-04/invalid-something.raml",
       "feature": "tests/raml-1.0/Root"
@@ -25,6 +27,7 @@
       "file": "tests/raml-1.0/Root/version/valid.raml",
       "success": true,
       "invalid": false,
+      "optional": false,
       "fileUrl": "https://github.com/qwe/123/tests/raml-1.0/Root/version/valid.raml",
       "feature": "tests/raml-1.0/Root"
     },
@@ -32,6 +35,7 @@
       "file": "tests/raml-1.0/Title/something/valid.raml",
       "success": true,
       "invalid": false,
+      "optional": false,
       "fileUrl": "https://github.com/qwe/123/tests/raml-1.0/Title/something/valid.raml",
       "feature": "tests/raml-1.0/Title"
     },
@@ -39,6 +43,7 @@
       "file": "tests/raml-1.0/Root/another-one/valid.raml",
       "success": true,
       "invalid": false,
+      "optional": false,
       "fileUrl": "https://github.com/qwe/123/tests/raml-1.0/Root/another-one/valid.raml",
       "feature": "tests/raml-1.0/Root"
     },
@@ -47,8 +52,34 @@
       "success": false,
       "error": "Error: Included file not found",
       "invalid": false,
+      "optional": false,
       "fileUrl": "https://github.com/qwe/123/tests/raml-1.0/Methods/title-04/valid-included.raml",
       "feature": "tests/raml-1.0/Methods"
+    },
+    {
+      "file": "tests/raml-1.0/Something/version/invalid-version-structure-optional.raml",
+      "success": true,
+      "invalid": true,
+      "optional": true,
+      "fileUrl": "https://github.com/qwe/123/tests/raml-1.0/Something/version/invalid-version-structure-optional.raml",
+      "feature": "tests/raml-1.0/Something"
+    },
+    {
+      "file": "tests/raml-1.0/Root/title-04/valid-optional-something.raml",
+      "success": false,
+      "error": "Error: Unexpected key bye",
+      "invalid": false,
+      "optional": true,
+      "fileUrl": "https://github.com/qwe/123/tests/raml-1.0/Root/title-04/valid-optional-something.raml",
+      "feature": "tests/raml-1.0/Root"
+    },
+    {
+      "file": "tests/raml-1.0/Root/title-04/valid-optional-something-more.raml",
+      "success": true,
+      "invalid": false,
+      "optional": true,
+      "fileUrl": "https://github.com/qwe/123/tests/raml-1.0/Root/title-04/valid-optional-something-more.raml",
+      "feature": "tests/raml-1.0/Root"
     }
   ]
 }

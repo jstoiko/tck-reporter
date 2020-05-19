@@ -33,6 +33,21 @@
       "file": "/tests/raml-1.0/Methods/title-04/valid-included.raml",
       "success": false,
       "error": "Error: Included file not found"
+    },
+
+    {
+      "file": "/tests/raml-1.0/Something/version/invalid-version-structure-optional.raml",
+      "success": false,
+      "error": "Error: hey"
+    },
+    {
+      "file": "/tests/raml-1.0/Root/title-04/valid-optional-something.raml",
+      "success": false,
+      "error": "Error: Unexpected key bye"
+    },
+    {
+      "file": "/tests/raml-1.0/Root/title-04/valid-optional-something-more.raml",
+      "success": true
     }
   ]
 }

@@ -45,6 +45,7 @@ function generateReports (jsonReportsDir, outputHtmlDir, opts) {
 function interpretReport (report, repoBranchUrl) {
   report.results.forEach(result => {
     result.invalid = shouldFail(result.file)
+    result.optional = isOptional(result.file)
     if (result.invalid) {
       delete result.error
       result.success = !result.success
@@ -75,22 +76,36 @@ function composeReportStats (report) {
     parser: report.parser,
     valid: { success: 0, total: 0, successPerc: 0 },
     invalid: { success: 0, total: 0, successPerc: 0 },
-    all: { success: 0, total: report.results.length, successPerc: 0 }
+    all: { success: 0, total: 0, successPerc: 0 },
+    optional: { success: 0, total: 0, successPerc: 0 }
   }
-  const invalid = report.results.filter(r => { return r.invalid })
-  const invalidSuccess = invalid.filter(r => { return r.success })
+  const nonOptResults = report.results.filter(r => !r.optional)
+
+  // Calculate invalid tests stats
+  const invalid = nonOptResults.filter(r => r.invalid)
+  const invalidSuccess = invalid.filter(r => r.success)
   stats.invalid.total = invalid.length
   stats.invalid.success = invalidSuccess.length
   stats.invalid.successPerc = calculateSuccessPerc(stats.invalid)
 
-  const valid = report.results.filter(r => { return !r.invalid })
-  const validSuccess = valid.filter(r => { return r.success })
+  // Calculate valid tests stats
+  const valid = nonOptResults.filter(r => !r.invalid)
+  const validSuccess = valid.filter(r => r.success)
   stats.valid.total = valid.length
   stats.valid.success = validSuccess.length
   stats.valid.successPerc = calculateSuccessPerc(stats.valid)
 
+  // Calculate total tests stats
+  stats.all.total = nonOptResults.length
   stats.all.success = invalidSuccess.length + validSuccess.length
   stats.all.successPerc = calculateSuccessPerc(stats.all)
+
+  // Calculate optional tests stats. Optional tests are not part of total
+  // stats numbers and percentage.
+  const optResults = report.results.filter(r => r.optional)
+  stats.optional.total = optResults.length
+  stats.optional.success = optResults.filter(r => r.success).length
+  stats.optional.successPerc = calculateSuccessPerc(stats.optional)
 
   return stats
 }
@@ -146,7 +161,12 @@ function renderTemplate (data, tmplName, htmlName, outputHtmlDir) {
   console.log(`Rendered HTML: ${outPath}`)
 }
 
-/* Checks whether a file is expected to fail */
+/* Checks whether a tck test is optional */
+function isOptional (fpath) {
+  return fpath.toLowerCase().includes('optional')
+}
+
+/* Checks whether a tck test is expected to fail */
 function shouldFail (fpath) {
   return fpath.toLowerCase().includes('invalid')
 }
