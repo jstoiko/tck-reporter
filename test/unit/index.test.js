@@ -22,6 +22,7 @@ describe('index.shouldFail()', function () {
     expect(shouldFail('valid-something.txt')).to.equal(false)
     expect(shouldFail('invalid-something.txt')).to.equal(true)
     expect(shouldFail('some-invalid-test.foo')).to.equal(true)
+    expect(shouldFail('invalid/some-test.foo')).to.equal(false)
   })
 })
 
@@ -32,6 +33,7 @@ describe('index.isOptional()', function () {
     expect(isOptional('valid-something.txt')).to.equal(false)
     expect(isOptional('some-invalid-test-optional.foo')).to.equal(true)
     expect(isOptional('invalid-something.txt')).to.equal(false)
+    expect(isOptional('optional/some-invalid-test.foo')).to.equal(false)
   })
 })
 

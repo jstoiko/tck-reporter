@@ -177,12 +177,14 @@ function renderTemplate (data, tmplName, htmlName, outputHtmlDir) {
 
 /* Checks whether a tck test is optional */
 function isOptional (fpath) {
-  return fpath.toLowerCase().includes('optional')
+  const fname = path.basename(fpath)
+  return fname.toLowerCase().includes('optional')
 }
 
 /* Checks whether a tck test is expected to fail */
 function shouldFail (fpath) {
-  return fpath.toLowerCase().includes('invalid')
+  const fname = path.basename(fpath)
+  return fname.toLowerCase().includes('invalid')
 }
 
 /** Copies static files needed for generated HTML page to look nice.
